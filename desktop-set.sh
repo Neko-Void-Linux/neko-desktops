@@ -1,6 +1,8 @@
 #! /usr/bin/env bash
 . ./base-neko-pkgs.sh
-
+rm_mate(){
+xbps-remove -Ro $PACKAGES_MATE
+}
 xfce(){
     cp -rfv xfce/etc /
     cp -rfv xfce/usr /
