@@ -15,6 +15,35 @@ set -u
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # ─────────────────────────────────────────────
+# Repository mirror. xbps-install inside a fresh chroot has no
+# /etc/xbps.d config (the installer does not persist it), so we must pass
+# --repository explicitly — exactly like the rest of the installer does.
+# ─────────────────────────────────────────────
+REPO="https://repo-de.voidlinux.org/current/"
+
+# ─────────────────────────────────────────────
+# xbps wrappers that always pass --repository + -y, and sync first.
+# Without this, xbps-install silently fails because no repository is
+# registered in the target chroot.
+# ─────────────────────────────────────────────
+xpkg_install() {
+    echo "Syncing package repositories..."
+    xbps-install -S --repository="${REPO}" || {
+        echo "ERROR: xbps-install -S failed (no network / DNS?). Aborting." >&2
+        return 1
+    }
+    echo "Installing packages..."
+    # shellcheck disable=SC2086  # we WANT word-splitting on the package list
+    xbps-install -Sy --repository="${REPO}" $1
+}
+
+xpkg_remove() {
+    # Don't fail the whole script if some packages are already gone.
+    # shellcheck disable=SC2086
+    xbps-remove -Ryo --repository="${REPO}" $1 2>/dev/null || true
+}
+
+# ─────────────────────────────────────────────
 # Disable a runit service if it is currently enabled.
 # ─────────────────────────────────────────────
 disable_sv() {
@@ -53,7 +82,7 @@ rm_mate() {
 
     # 2) Remove MATE packages (-R removes, -o removes orphans, -y assumes yes).
     #    Don't abort the whole script if xbps-remove reports missing packages.
-    xbps-remove -Ryo "${PACKAGES_MATE}" 2>/dev/null || true
+    xpkg_remove "${PACKAGES_MATE}"
 
     # 3) Drop stale MATE session entries.
     clean_mate_sessions
@@ -74,48 +103,48 @@ apply_desktop_files() {
 xfce() {
     rm_mate
     apply_desktop_files xfce
-    xbps-install -Sy "${PACKAGES_XFCE}"
+    xpkg_install "${PACKAGES_XFCE}"
     enable_display_manager lightdm
 }
 
 niri() {
     rm_mate
     apply_desktop_files niri
-    xbps-install -Sy "${PACKAGES_NIRI}"
+    xpkg_install "${PACKAGES_NIRI}"
     enable_display_manager emptty
 }
 
 kde() {
     rm_mate
     apply_desktop_files kde
-    xbps-install -Sy "${PACKAGES_KDE}"
+    xpkg_install "${PACKAGES_KDE}"
     enable_display_manager sddm
 }
 
 mate() {
     apply_desktop_files mate
-    xbps-install -Sy "${PACKAGES_MATE}"
+    xpkg_install "${PACKAGES_MATE}"
     enable_display_manager lightdm
 }
 
 labwc() {
     rm_mate
     apply_desktop_files labwc
-    xbps-install -Sy "${PACKAGES_LABWC}"
+    xpkg_install "${PACKAGES_LABWC}"
     enable_display_manager lightdm
 }
 
 lxqt() {
     rm_mate
     apply_desktop_files lxqt
-    xbps-install -Sy "${PACKAGES_LXQT}"
+    xpkg_install "${PACKAGES_LXQT}"
     enable_display_manager lightdm
 }
 
 icejwm() {
     rm_mate
     apply_desktop_files icejwm
-    xbps-install -Sy "${PACKAGES_ICEJWM}"
+    xpkg_install "${PACKAGES_ICEJWM}"
     enable_display_manager lightdm
 }
 
