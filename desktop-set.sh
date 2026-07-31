@@ -45,13 +45,26 @@ xpkg_remove() {
 
 # ─────────────────────────────────────────────
 # Disable a runit service if it is currently enabled.
+# Void Linux uses TWO locations for enabled services:
+#   1. /var/service/          (active runlevel, managed by runit)
+#   2. /etc/runit/runsvdir/default/  (persistent runlevel symlinks)
+# We must clean both so the service doesn't respawn after reboot.
 # ─────────────────────────────────────────────
 disable_sv() {
     local svc="$1"
-    # Remove the "enabled" symlink under /var/service (the active runlevel).
+    # Active runlevel symlink.
     if [ -L "/var/service/${svc}" ]; then
-        echo "Disabling service: ${svc}"
+        echo "Disabling service (active): ${svc}"
         rm -f "/var/service/${svc}"
+    fi
+    # Persistent runlevel default — this is what survives reboots.
+    if [ -L "/etc/runit/runsvdir/default/${svc}" ]; then
+        echo "Disabling service (default runlevel): ${svc}"
+        rm -f "/etc/runit/runsvdir/default/${svc}"
+    fi
+    # Also clean any direct dir entry (non-symlink) that some ISOs create.
+    if [ -e "/etc/runit/runsvdir/default/${svc}" ]; then
+        rm -rf "/etc/runit/runsvdir/default/${svc}"
     fi
 }
 
@@ -62,9 +75,7 @@ disable_sv() {
 clean_sessions() {
     local name="$1"
     rm -f "/usr/share/xsessions/${name}.desktop" 2>/dev/null
-    rm -f "/usr/share/xsessions/*${name}*" 2>/dev/null
     rm -f "/usr/share/wayland-sessions/${name}.desktop" 2>/dev/null
-    rm -f "/usr/share/wayland-sessions/*${name}*" 2>/dev/null
 }
 
 # ─────────────────────────────────────────────
@@ -118,11 +129,17 @@ remove_existing_desktop() {
 
     echo "Found existing desktop: '${found}'. Removing it..."
 
-    # Disable any display-manager service the old desktop may have enabled,
-    # so it doesn't respawn the old session after packages are gone.
-    disable_sv lightdm
-    disable_sv sddm
-    disable_sv emptty
+    # Disable ONLY the DM that belongs to the desktop being removed.
+    # (enable_display_manager will clean up the rest when enabling the new one.)
+    local old_dm=""
+    case "${found}" in
+        mate|xfce|lxqt|labwc|icejwm) old_dm="lightdm" ;;
+        kde)                          old_dm="sddm"    ;;
+        niri)                         old_dm="emptty"  ;;
+    esac
+    if [ -n "${old_dm}" ]; then
+        disable_sv "${old_dm}"
+    fi
 
     # Map detected desktop -> package list variable and remove it.
     local pkgs=""
@@ -153,21 +170,48 @@ apply_desktop_files() {
 }
 
 # ─────────────────────────────────────────────
-# Enable the chosen display manager's runit service. Uses /etc/sv as the
-# canonical service source (Void convention) and links it into /var/service.
+# Enable the chosen display manager's runit service.
+#
+# Void Linux runit convention:
+#   - Services live in /etc/sv/<name>/
+#   - Enabling = symlinking into /var/service/  (active, managed by runit)
+#   - Persistence across reboots = symlinking into /etc/runit/runsvdir/default/
+#
+# The ISO ships with lightdm enabled by default; we must remove it from
+# both paths before linking the new DM.
 # ─────────────────────────────────────────────
 enable_display_manager() {
     local dm="$1"
-    # Make sure no competing DM is enabled first.
-    disable_sv lightdm
-    disable_sv sddm
-    disable_sv emptty
-    if [ -d "/etc/sv/${dm}" ]; then
-        echo "Enabling display manager: ${dm}"
-        ln -sf "/etc/sv/${dm}" "/var/service/${dm}"
-    else
-        echo "WARNING: service dir /etc/sv/${dm} not found, cannot enable ${dm}."
+
+    echo "--- Configuring display manager: ${dm} ---"
+
+    # 1. Disable ALL competing DMs from every known runit location.
+    for _dm in lightdm sddm emptty; do
+        disable_sv "${_dm}"
+    done
+
+    # 2. Verify the service directory exists (package must be installed first).
+    if [ ! -d "/etc/sv/${dm}" ]; then
+        echo "ERROR: /etc/sv/${dm} not found after package installation!"
+        echo "       Check that the package providing '${dm}' is in the package list."
+        return 1
     fi
+
+    # 3. Ensure /var/service exists (may be absent in a fresh chroot).
+    mkdir -p /var/service
+
+    # 4. Ensure /etc/runit/runsvdir/default exists.
+    mkdir -p /etc/runit/runsvdir/default
+
+    # 5. Enable in the active runlevel (/var/service).
+    echo "Enabling ${dm} in /var/service/"
+    ln -sf "/etc/sv/${dm}" "/var/service/${dm}"
+
+    # 6. Enable in the persistent default runlevel so it survives reboots.
+    echo "Enabling ${dm} in /etc/runit/runsvdir/default/"
+    ln -sf "/etc/sv/${dm}" "/etc/runit/runsvdir/default/${dm}"
+
+    echo "Display manager '${dm}' enabled successfully."
 }
 
 # ─────────────────────────────────────────────
