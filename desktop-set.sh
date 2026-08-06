@@ -20,6 +20,10 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # --repository explicitly — exactly like the rest of the installer does.
 # ─────────────────────────────────────────────
 REPO="https://repo-de.voidlinux.org/current/"
+# Custom Neko Void repo. Some desktops (e.g. niri -> noctalia) depend on
+# packages that only exist here, so it must always be registered or the
+# whole xbps-install batch fails silently.
+NEKO_REPO="https://sourceforge.net/projects/neko-void/files/repo"
 
 # ─────────────────────────────────────────────
 # xbps wrappers that always pass --repository + -y, and sync first.
@@ -28,19 +32,22 @@ REPO="https://repo-de.voidlinux.org/current/"
 # ─────────────────────────────────────────────
 xpkg_install() {
     echo "Syncing package repositories..."
-    xbps-install -S --repository="${REPO}" || {
+    xbps-install -S --repository="${REPO}" --repository="${NEKO_REPO}" || {
         echo "ERROR: xbps-install -S failed (no network / DNS?). Aborting." >&2
         return 1
     }
     echo "Installing packages..."
     # shellcheck disable=SC2086  # we WANT word-splitting on the package list
-    xbps-install -Sy --repository="${REPO}" $1
+    xbps-install -Sy --repository="${REPO}" --repository="${NEKO_REPO}" $1 || {
+        echo "ERROR: xbps-install failed — one or more packages could not be installed." >&2
+        return 1
+    }
 }
 
 xpkg_remove() {
     # Don't fail the whole script if some packages are already gone.
     # shellcheck disable=SC2086
-    xbps-remove -Ryo --repository="${REPO}" $1 2>/dev/null || true
+    xbps-remove -Ryo --repository="${REPO}" --repository="${NEKO_REPO}" $1 2>/dev/null || true
 }
 
 # ─────────────────────────────────────────────
@@ -197,19 +204,41 @@ enable_display_manager() {
         return 1
     fi
 
-    # 3. Ensure /var/service exists (may be absent in a fresh chroot).
+    # 3. Ensure /var/service exists. Inside a chroot (freshly copied rootfs)
+    #    it is a broken symlink to /run/runit/runsvdir/current (only created at
+    #    boot), so replace it with a real directory before linking.
+    if [ -L /var/service ] && [ ! -e /var/service ]; then
+        echo "NOTE: /var/service is a broken symlink (chroot) — using a real dir."
+        rm -f /var/service
+    fi
     mkdir -p /var/service
 
-    # 4. Ensure /etc/runit/runsvdir/default exists.
+    # 4. Ensure /etc/runit/runsvdir/default exists (persistent runlevel).
     mkdir -p /etc/runit/runsvdir/default
 
     # 5. Enable in the active runlevel (/var/service).
-    echo "Enabling ${dm} in /var/service/"
-    ln -sf "/etc/sv/${dm}" "/var/service/${dm}"
+    if ln -sf "/etc/sv/${dm}" "/var/service/${dm}"; then
+        echo "Enabled ${dm} in /var/service/"
+    else
+        echo "ERROR: could not enable ${dm} in /var/service/" >&2
+        return 1
+    fi
 
     # 6. Enable in the persistent default runlevel so it survives reboots.
-    echo "Enabling ${dm} in /etc/runit/runsvdir/default/"
-    ln -sf "/etc/sv/${dm}" "/etc/runit/runsvdir/default/${dm}"
+    if ln -sf "/etc/sv/${dm}" "/etc/runit/runsvdir/default/${dm}"; then
+        echo "Enabled ${dm} in /etc/runit/runsvdir/default/"
+    else
+        echo "ERROR: could not enable ${dm} in the default runlevel" >&2
+        return 1
+    fi
+
+    # 7. Activate the service immediately when runit is running (booted system).
+    #    Inside the installer chroot there is no runsvdir, so this is skipped;
+    #    on the target it starts at boot via the default runlevel symlink.
+    if [ -d /run/runit/runsvdir ]; then
+        echo "Activating ${dm} (sv up)..."
+        sv up "/var/service/${dm}" 2>/dev/null || true
+    fi
 
     echo "Display manager '${dm}' enabled successfully."
 }

@@ -269,7 +269,7 @@ NIRI="
     wlr-randr
     wdisplays
 	mate-polkit
-    Thunar
+    caja
     xwayland-satellite
 	emptty
 	niri
