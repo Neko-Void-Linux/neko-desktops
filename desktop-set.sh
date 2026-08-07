@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 # desktop-set.sh — install a desktop environment into the current system.
 #
-# Usage: ./desktop-set.sh <xfce|niri|kde|mate|labwc|lxqt|icejwm>
+# Usage: ./desktop-set.sh <xfce|niri|kde|mate|labwc|lxqt|icejwm|i3>
 #
 # Designed to run inside the chroot of a freshly copied Void live rootfs.
 # It detects which desktop is ALREADY installed (the live image ships with
@@ -110,6 +110,7 @@ remove_existing_desktop() {
     elif installed_pkg lxqt;        then found="lxqt"
     elif installed_pkg niri;        then found="niri"
     elif installed_pkg labwc;       then found="labwc"
+    elif installed_pkg i3;          then found="i3"
     elif installed_pkg jwm 2>/dev/null || installed_pkg icewm; then found="icejwm"
     fi
 
@@ -140,8 +141,8 @@ remove_existing_desktop() {
     # (enable_display_manager will clean up the rest when enabling the new one.)
     local old_dm=""
     case "${found}" in
-        mate|xfce|lxqt|labwc|icejwm) old_dm="lightdm" ;;
-        kde)                          old_dm="sddm"    ;;
+        mate|xfce|lxqt|labwc|icejwm|i3) old_dm="lightdm" ;;
+        kde)                            old_dm="sddm"    ;;
         niri)                         old_dm="emptty"  ;;
     esac
     if [ -n "${old_dm}" ]; then
@@ -158,6 +159,7 @@ remove_existing_desktop() {
         niri)   pkgs="${PACKAGES_NIRI}"   ;;
         labwc)  pkgs="${PACKAGES_LABWC}"  ;;
         icejwm) pkgs="${PACKAGES_ICEJWM}" ;;
+        i3)     pkgs="${PACKAGES_I3}"     ;;
     esac
 
     if [ -n "${pkgs}" ]; then
@@ -295,6 +297,13 @@ icejwm() {
     enable_display_manager lightdm
 }
 
+i3() {
+    remove_existing_desktop i3
+    apply_desktop_files i3
+    xpkg_install "${PACKAGES_I3}"
+    enable_display_manager lightdm
+}
+
 # ─────────────────────────────────────────────
 # Dispatcher
 # ─────────────────────────────────────────────
@@ -306,9 +315,10 @@ case "${1:-}" in
     lxqt )   lxqt ;;
     icejwm ) icejwm ;;
     labwc )  labwc ;;
+    i3 )     i3 ;;
     * )
         echo "Error: Debes especificar un entorno válido."
-        echo "Opciones: xfce, kde, mate, niri, lxqt, icejwm, labwc."
+        echo "Opciones: xfce, kde, mate, niri, lxqt, icejwm, labwc, i3."
         exit 1
         ;;
 esac

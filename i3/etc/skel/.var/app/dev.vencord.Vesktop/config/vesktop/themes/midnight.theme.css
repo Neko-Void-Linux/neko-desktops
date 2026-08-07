@@ -1,0 +1,35 @@
+@import url('https://refact0r.github.io/midnight-discord/build/midnight.css');
+
+:root {
+    --colors: on;
+
+    /* Colores de fondo inyectados por Matugen */
+    --bg-4: #0f1416;           /* Fondo principal */
+    --bg-3: #1b2023; /* Paneles secundarios */
+    --bg-2: #252b2d; 
+    --bg-1: #004d61;
+
+    /* Textos */
+    --text-1: #dee3e6;
+    --text-2: #c0c8cc;
+    --text-3: #c0c8cc;
+
+    /* Acentos (Branding) */
+    --accent-1: #89d0ed;
+    --accent-2: #89d0ed;
+    --accent-3: #89d0ed;
+    --accent-4: #89d0ed;
+    --accent-5: #b9eaff;
+
+    /* Estados */
+    --online: #89d0ed;
+    --dnd: #ffb4ab;
+    --idle: #b3cad5;
+}
+
+body {
+    --font: 'figtree';
+    --animations: on;
+    --custom-window-controls: on;
+    --small-user-panel: on;
+}
