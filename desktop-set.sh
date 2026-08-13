@@ -32,6 +32,7 @@ case "${1:-}" in
     lxqt )   apply_desktop_files lxqt   || exit 1 ;;
     icejwm ) apply_desktop_files icejwm || exit 1 ;;
     labwc )  apply_desktop_files labwc  || exit 1 ;;
+    i3 )  apply_desktop_files i3  || exit 1 ;;
     * )
         echo "Error: Debes especificar un entorno válido."
         echo "Opciones: default, xfce, kde, mate, niri, lxqt, icejwm, labwc."
