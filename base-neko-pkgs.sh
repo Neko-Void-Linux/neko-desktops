@@ -23,6 +23,7 @@ MATE_DESKTOP="
     gvfs-mtp
     gvfs-smb
     lightdm
+    lightdm-gtk-greeter
     lightdm-webkit2-greeter
     lightdm-gtk-greeter-settings
     libnotify
@@ -45,6 +46,7 @@ XFCE2="
     gvfs-smb
     udisks2
     lightdm
+    lightdm-gtk-greeter
     lightdm-webkit2-greeter
     lightdm-gtk-greeter-settings
     libnotify
@@ -64,6 +66,7 @@ XFCE="
     gvfs-smb
     udisks2
     lightdm
+    lightdm-gtk-greeter
     lightdm-webkit2-greeter
     lightdm-gtk-greeter-settings
     libnotify
@@ -77,6 +80,7 @@ LXQT="
     xfwm4
     xfwm4-themes
     lightdm
+    lightdm-gtk-greeter
     lightdm-webkit2-greeter
     lightdm-gtk-greeter-settings
     gvfs-afc
@@ -226,6 +230,7 @@ CINNAMON="
     gvfs-mtp
     gvfs-smb
     lightdm
+    lightdm-gtk-greeter
     colord
     gnome-terminal
 "
@@ -235,6 +240,7 @@ LABWC="
     ristretto
     xarchiver
 	lightdm
+	lightdm-gtk-greeter
 	gvfs-afc
     gvfs-mtp
     gvfs-smb
