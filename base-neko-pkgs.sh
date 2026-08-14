@@ -132,7 +132,7 @@ I3="
     maim
     xclip
     xdotool
-    nemo
+    pcmanfm
     dmenu
     git
     ark
@@ -150,13 +150,25 @@ I3="
     xcb-util-wm
     libxkbcommon
     font-awesome6
+    nerd-fonts-symbols-ttf
     fontconfig
     ImageMagick
+    libvips
     gvfs-afc
     gvfs-mtp
     gvfs-smb
     udisks2
     firefox
+    matugen
+    adw-gtk3
+    papirus-icon-theme
+    lua53
+    xsettingsd
+    xwinwrap-nk
+    ffmpegthumbnailer
+    socat
+    dunst
+    dash
 "
 
 ICEJWM="

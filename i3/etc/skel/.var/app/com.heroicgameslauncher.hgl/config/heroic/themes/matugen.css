@@ -1,0 +1,24 @@
+:root {
+  /* tus variables de matugen */
+  --primary: #89d0ed;
+  --secondary: #b3cad5;
+  --background: #0f1416;
+  --surface: #0f1416;
+  --on-surface: #dee3e6;
+  --surface-variant: #40484c;
+
+  /* variables reales de Heroic */
+  --accent: #89d0ed !important;
+  --accent-overlay: #89d0ed33 !important;
+  --text-default: #dee3e6 !important;
+  --text-secondary: #c0c8cc !important;
+  --background-darker: #0f1416 !important;
+  --background-dark: #0f1416 !important;
+  --body-background: #0f1416 !important;
+}
+
+/* portadas en color */
+.gameCard img,
+.gameListItem img {
+  filter: none !important;
+}
