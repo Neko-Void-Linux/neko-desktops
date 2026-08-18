@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 # desktop-set.sh — copy a desktop's config bundle into the current system.
 #
-# Usage: ./desktop-set.sh <xfce|niri|kde|mate|labwc|lxqt|icejwm>
+# Usage: ./desktop-set.sh <xfce|niri|kde|mate|labwc|lxqt|icejwm|swayfx>
 #
 # This script ONLY copies the desktop's config files (etc/ and usr/ trees)
 # into the target. Installing the packages and enabling the services is done
@@ -32,10 +32,11 @@ case "${1:-}" in
     lxqt )   apply_desktop_files lxqt   || exit 1 ;;
     icejwm ) apply_desktop_files icejwm || exit 1 ;;
     labwc )  apply_desktop_files labwc  || exit 1 ;;
-    i3 )  apply_desktop_files i3  || exit 1 ;;
+    i3 )     apply_desktop_files i3     || exit 1 ;;
+    swayfx ) apply_desktop_files swayfx || exit 1 ;;
     * )
         echo "Error: Debes especificar un entorno válido."
-        echo "Opciones: default, xfce, kde, mate, niri, lxqt, icejwm, labwc."
+        echo "Opciones: default, xfce, kde, mate, niri, lxqt, icejwm, labwc, i3, swayfx."
         exit 1
         ;;
 esac

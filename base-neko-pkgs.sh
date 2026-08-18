@@ -403,6 +403,53 @@ NIRI_PACKAGES="
     ${DEFAULT}
     ${NIRI}
 "
+
+SWAYFX="
+    discover
+    ristretto
+    xarchiver
+    gvfs-afc
+    gvfs-mtp
+    gvfs-smb
+    wlr-randr
+    wdisplays
+    mate-polkit
+    caja
+    xwayland-satellite
+    emptty
+    swayfx
+    foot
+    xdg-desktop-portal
+    xdg-desktop-portal-gnome
+    xdg-desktop-portal-wlr
+    wl-clipboard
+    mako
+    wlsunset
+    nwg-look
+    gtk-update-icon-cache
+    wlopm
+    mpv
+    geany
+    grim
+    slurp
+    gtksourceview
+    json-c
+    yad
+    waterfox
+    gtk-layer-shell
+    gtkmm
+    swaylock
+    swayidle
+    kanshi
+    wofi
+    waybar
+"
+
+SWAYFX_PACKAGES="
+    ${DEFAULT}
+    ${SWAYFX}
+"
+
 # Limpiar espacios extra y newlines, convertir a una línea
 PACKAGES_MATE=$(echo ${MATE_PACKAGES} | tr -s ' ')
 PACKAGES_KDE=$(echo ${KDE_PACKAGES} | tr -s ' ')
@@ -414,3 +461,4 @@ PACKAGES_LXDE=$(echo ${LXDE_PACKAGES} | tr -s ' ')
 PACKAGES_CINNAMON=$(echo ${CINNAMON_PACKAGES} | tr -s ' ')
 PACKAGES_LABWC=$(echo ${LABWC_PACKAGES} | tr -s ' ')
 PACKAGES_NIRI=$(echo ${NIRI_PACKAGES} | tr -s ' ')
+PACKAGES_SWAYFX=$(echo ${SWAYFX_PACKAGES} | tr -s ' ')
