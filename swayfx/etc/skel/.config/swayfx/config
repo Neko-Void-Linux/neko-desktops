@@ -1,0 +1,114 @@
+# swayfx config - translated from niri rice
+# swayfx uses the same config syntax as sway
+
+# ─── Autostart ───────────────────────────────────────────────
+exec dbus-update-activation-environment --all
+exec pipewire
+exec pipewire-pulse
+exec /usr/libexec/polkit-mate-authentication-agent-1
+exec sleep 3 && /usr/libexec/xdg-desktop-portal -r
+exec sleep 2 && /usr/libexec/xdg-desktop-portal-gtk
+exec sleep 2 && /usr/libexec/xdg-desktop-portal-wlr
+exec rice_set
+exec mako
+exec kanshi
+exec wlsunset
+exec foot
+exec caja
+exec waterfox
+exec geany
+exec wofi
+
+# ─── Input ───────────────────────────────────────────────────
+input * {
+    xkb_layout us
+}
+
+input type:touchpad {
+    tap enabled
+    dwt enabled
+    dwtp enabled
+    drag disabled
+    drag_lock enabled
+    natural_scroll enabled
+    accel_speed 0.2
+    accel_profile flat
+    scroll_method two_finger
+    events disabled_on_external_mouse
+}
+
+input type:mouse {
+    accel_profile flat
+}
+
+# Cursor
+exec_always gsettings set org.gnome.desktop.interface cursor-theme 'Bibata-Gruvbox'
+exec_always gsettings set org.gnome.desktop.interface cursor-size 16
+
+# ─── Gaps & Borders ──────────────────────────────────────────
+gaps inner 8
+gaps outer 8
+smart_gaps on
+smart_borders on
+
+# ─── Effects (swayfx) ────────────────────────────────────────
+blur enable
+blur_radius 8
+blur_passes 3
+
+shadows enable
+shadow_color #00000070
+shadow_offset 0 5
+shadow_blur_radius 10
+
+# ─── Keybinds ────────────────────────────────────────────────
+bindsym Mod4+t exec foot
+bindsym Mod4+d exec wofi --show drun
+bindsym Mod4+q kill
+bindsym Mod4+Left focus left
+bindsym Mod4+Down focus down
+bindsym Mod4+Up focus up
+bindsym Mod4+Right focus right
+bindsym Mod4+Shift+Left move left
+bindsym Mod4+Shift+Down move down
+bindsym Mod4+Shift+Up move up
+bindsym Mod4+Shift+Right move right
+bindsym Mod4+Shift+Space floating toggle
+bindsym Mod4+f fullscreen toggle
+bindsym Mod4+1 workspace 1
+bindsym Mod4+2 workspace 2
+bindsym Mod4+3 workspace 3
+bindsym Mod4+4 workspace 4
+bindsym Mod4+5 workspace 5
+bindsym Mod4+6 workspace 6
+bindsym Mod4+7 workspace 7
+bindsym Mod4+8 workspace 8
+bindsym Mod4+9 workspace 9
+bindsym Mod4+Ctrl+1 move container to workspace 1
+bindsym Mod4+Ctrl+2 move container to workspace 2
+bindsym Mod4+Ctrl+3 move container to workspace 3
+bindsym Mod4+Ctrl+4 move container to workspace 4
+bindsym Mod4+Ctrl+5 move container to workspace 5
+bindsym Mod4+Ctrl+6 move container to workspace 6
+bindsym Mod4+Ctrl+7 move container to workspace 7
+bindsym Mod4+Ctrl+8 move container to workspace 8
+bindsym Mod4+Ctrl+9 move container to workspace 9
+bindsym Print exec grim
+bindsym Ctrl+Print exec grim -g "$(slurp)"
+bindsym Mod4+Shift+e exec swaynag -t warning -m 'Sway Session' -b 'Yes, exit sway' 'swaymsg exit'
+bindsym Mod4+Shift+l exec swaylock
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86MonBrightnessUp exec brightnessctl set +10%
+bindsym XF86MonBrightnessDown exec brightnessctl set 10%-
+
+# ─── Window Rules ────────────────────────────────────────────
+for_window [app_id="^org\.wezfurlong\.wezterm$"] floating enable
+for_window [app_id="^firefox$" title="^Picture-in-Picture$"] floating enable
+for_window [app_id="dev.noctalia.Noctalia.Settings"] floating enable, resize set 1080 920
+
+# ─── Bar ─────────────────────────────────────────────────────
+bar {
+    swaybar_command waybar
+}

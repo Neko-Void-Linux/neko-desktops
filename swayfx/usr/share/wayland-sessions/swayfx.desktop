@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Swayfx
+Comment=A Wayland compositor with effects
+Exec=/usr/bin/neko-swayfx
+Type=Application
+DesktopNames=swayfx
+Name[en_US]=swayfx.desktop
