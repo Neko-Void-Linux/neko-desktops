@@ -5,30 +5,6 @@ set -u
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 . ./base-neko-pkgs.sh
-base(){
-
-}
-niri-pkgs(){
-
-}
-labwc-pkgs(){
-
-}
-xfce-pkgs(){
-
-}
-lxqt-pkgs(){
-}
-mate-pkgs(){
-}
-kde-pkgs(){
-}
-
-i3-pkgs(){
-}
-
-icejwm-pkgs(){
-}
 # desktop-set.sh — copy a desktop's config bundle into the current system.
 #
 # Usage: ./desktop-set.sh <xfce|niri|kde|mate|labwc|lxqt|icejwm|swayfx>
@@ -40,12 +16,34 @@ icejwm-pkgs(){
 
 apply_desktop_files() {
     local name="$1"
+    # Es buena idea pasar el nombre del usuario real al que se le aplicará el skel
+    local target_user="$2" 
+    local target_home="/home/${target_user}"
+
     if [ ! -d "${SCRIPT_DIR}/${name}" ]; then
         echo "ERROR: config bundle for '${name}' not found." >&2
         return 1
     fi
+    
+    if [ -z "$target_user" ]; then
+        echo "ERROR: target user not specified." >&2
+        return 1
+    fi
+
+    # 1. Copiar configuraciones del sistema (requiere root)
     cp -rfv "${SCRIPT_DIR}/${name}/etc" /
     cp -rfv "${SCRIPT_DIR}/${name}/usr" /
+
+    # 2. Copiar el skeleton al home del usuario real
+    cp -rfv "${SCRIPT_DIR}/${name}/etc/skel/." "${target_home}/"
+
+    # 3. Arreglar los permisos para que el usuario sea el dueño de sus archivos
+    # (Asumiendo que el grupo se llama igual que el usuario)
+    chown -R "${target_user}:${target_user}" "${target_home}/"
+
+    # 4. Instalar el paquete de Void Linux de forma segura
+    # Protegemos la variable con comillas por si $pkg contiene espacios o está vacía
+    xbps-install -Sy "${pkg}-${name}"
 }
 
 # default = the distro's default desktop config (MATE)
