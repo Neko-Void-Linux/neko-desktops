@@ -8,26 +8,26 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 base(){
 
 }
-niri(){
+niri-pkgs(){
 
 }
-labwc(){
+labwc-pkgs(){
 
 }
-xfce(){
+xfce-pkgs(){
 
 }
-lxqt(){
+lxqt-pkgs(){
 }
-mate(){
+mate-pkgs(){
 }
-kde(){
-}
-
-i3(){
+kde-pkgs(){
 }
 
-icejwm(){
+i3-pkgs(){
+}
+
+icejwm-pkgs(){
 }
 # desktop-set.sh — copy a desktop's config bundle into the current system.
 #
