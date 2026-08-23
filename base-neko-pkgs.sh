@@ -226,7 +226,6 @@ KDE="
 CINNAMON="
     cinnamon
     gvfs-afc
-    gnome-software
     gvfs-mtp
     gvfs-smb
     lightdm
@@ -236,7 +235,6 @@ CINNAMON="
 "
 
 LABWC="
-    discover
     ristretto
     xarchiver
 	lightdm
@@ -252,11 +250,10 @@ LABWC="
 	labwc
 	alacritty
 	kanshi
-	sfwbar
 	xdg-desktop-portal
 	xdg-desktop-portal-wlr
 	playerctl
-	rofi
+	noctalia
 	nwg-look
 	gtk-update-icon-cache
 	wl-clipboard
@@ -278,7 +275,6 @@ LABWC="
 "
 
 NIRI="
-    discover
     ristretto
     xarchiver
 	gvfs-afc
