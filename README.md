@@ -6,7 +6,7 @@ Automated configuration script for desktop environments on Void Linux-based syst
 ## Usage
 
 ```bash
-./desktop-set.sh <desktop> <username>
+./install.sh <desktop> <username>
 
 ```
 
