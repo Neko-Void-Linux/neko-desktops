@@ -9,7 +9,11 @@ Automated configuration script for desktop environments on Void Linux-based syst
 ./install.sh <desktop> <username>
 
 ```
+### example
+```bash
+./install.sh kde sexyneko
 
+```
 ## Parameters
 
 | Parameter | Description |
