@@ -1,5 +1,5 @@
 # THIS REPO ONLY HAS RICE AND FILES FOR USE ON NEKOVOID DESKTOPS
-# Neko Void Desktop Setup
+## Neko Void Desktop Setup
 
 Automated configuration script for desktop environments on Void Linux-based systems. It handles applying global configurations, preparing the user's home directory, and enabling the necessary runit services.
 
