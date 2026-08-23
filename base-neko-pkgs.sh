@@ -3,7 +3,6 @@
 # Escritorio MATE
 # ─────────────────────────────────────────────
 MATE_DESKTOP="
-    discover
     firefox
     mate
     mate-extra
@@ -53,7 +52,6 @@ XFCE2="
     numlockx
 "
 XFCE="
-    gnome-software
     xfce4
     xfce4-whiskermenu-plugin
     gnome-themes-standard
