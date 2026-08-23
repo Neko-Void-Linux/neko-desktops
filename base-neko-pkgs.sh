@@ -324,7 +324,6 @@ FLATPAK="
     flatpak
     xdg-desktop-portal
     xdg-desktop-portal-gtk
-    octoxbps
 "
 
 # ─────────────────────────────────────────────
