@@ -106,7 +106,6 @@ LXDE="
 "
 
 I3="
-    discover
     i3
     lightdm
     xdg-desktop-portal-gtk
