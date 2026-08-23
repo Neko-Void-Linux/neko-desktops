@@ -65,23 +65,23 @@
     <action name="Reconfigure" />
   </item>
   <item label="Pkg Clean">
-     <action name="Execute" command="alacritty -e bash -c &quot;sudo pacman -Qqdt | sudo pacman -R --noconfirm -&quot;" />
+     <action name="Execute" command="alacritty -e bash -c &quot;sudo xbps-install -oO &quot;" />
   </item>
   <item label="Sys Update">
-     <action name="Execute" command="alacritty -e bash -c &quot;sudo pacman -Syu; yay -Syu&quot;" />
+     <action name="Execute" command="alacritty -e bash -c &quot;sudo xbps-install -Syu &quot;" />
   </item>
   <item label="Exit">
     <action name="Exit" />
   </item>
   <item label="Sleep">
     <action name="Execute" command="swaylock -i ~/.labwc -f" />
-    <action name="Execute" command="systemctl suspend" />
+    <action name="Execute" command="loginctl suspend" />
   </item>
   <item label="Poweroff">
-    <action name="Execute" command="systemctl -i poweroff" />
+    <action name="Execute" command="loginctl poweroff" />
   </item>
   <item label="Reboot">
-    <action name="Execute" command="reboot" />
+    <action name="Execute" command="loginctl reboot" />
   </item>
 </menu>
 
