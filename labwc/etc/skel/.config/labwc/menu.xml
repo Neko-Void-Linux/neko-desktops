@@ -49,6 +49,7 @@
     </item>
   </menu>
 
+<<<<<<< HEAD
   <menu id="root-menu">
     <!-- Make client-list-combined-menu a submenu of root-menu
     You must supply a label or it will not appear in root-menu -->
@@ -84,6 +85,43 @@
       <action name="Execute" command="loginctl reboot" />
     </item>
   </menu>
+=======
+<menu id="root-menu">
+  <!-- Make client-list-combined-menu a submenu of root-menu 
+       You must supply a label or it will not appear in root-menu -->
+  <!--
+  <menu id="client-list-combined-menu" label="Running..." />
+  -->
+  <item label="Web browser">
+    <action name="Execute" command="vivaldi" />
+  </item>
+  <item label="Terminal">
+    <action name="Execute" command="alacritty" />
+  </item>
+  <item label="Reconfigure">
+    <action name="Reconfigure" />
+  </item>
+  <item label="Pkg Clean">
+     <action name="Execute" command="alacritty -e bash -c &quot;sudo xbps-remove -oO &quot;" />
+  </item>
+  <item label="Sys Update">
+     <action name="Execute" command="alacritty -e bash -c &quot;sudo xbps-install -Syu &quot;" />
+  </item>
+  <item label="Exit">
+    <action name="Exit" />
+  </item>
+  <item label="Sleep">
+    <action name="Execute" command="swaylock -i ~/.labwc -f" />
+    <action name="Execute" command="loginctl suspend" />
+  </item>
+  <item label="Poweroff">
+    <action name="Execute" command="loginctl poweroff" />
+  </item>
+  <item label="Reboot">
+    <action name="Execute" command="loginctl reboot" />
+  </item>
+</menu>
+>>>>>>> bdc50fe7aeb2d806aee2c5881e457d52ddb53f7f
 
   <menu id="some-custom-menu">
     <!--
