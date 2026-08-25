@@ -169,7 +169,6 @@ I3="
 "
 
 ICEJWM="
-    discover
     ristretto
     xarchiver
     arandr
