@@ -231,25 +231,27 @@ CINNAMON="
 "
 
 LABWC="
+	qt6-wayland-client
+	qt6-wayland
     ristretto
+    noctalia
     xarchiver
-	lightdm
-	lightdm-gtk-greeter
+	emptty
+	wofi
 	gvfs-afc
     gvfs-mtp
     gvfs-smb
 	wlr-randr
-	mako
 	xwayland-satellite
 	swaylock
-	mate-polkit
 	labwc
-	alacritty
+	labwc-menu-generator
+	labwc-tweaks-qt
+	foot
 	kanshi
 	xdg-desktop-portal
 	xdg-desktop-portal-wlr
 	playerctl
-	noctalia
 	nwg-look
 	gtk-update-icon-cache
 	wl-clipboard
@@ -271,6 +273,7 @@ LABWC="
 "
 
 NIRI="
+    qt6-wayland-client
     ristretto
     xarchiver
 	gvfs-afc
@@ -278,16 +281,16 @@ NIRI="
     gvfs-smb
     wlr-randr
     wdisplays
-	mate-polkit
     caja
+    wofi
     xwayland-satellite
 	emptty
 	niri
 	noctalia
 	foot
 	xdg-desktop-portal
-	xdg-desktop-portal-gnome
 	xdg-desktop-portal-wlr
+	xdg-desktop-portal-gnome
 	wl-clipboard
 	mako
 	wlsunset
@@ -307,6 +310,7 @@ NIRI="
 	gtk-layer-shell
 	gtkmm
 "
+
 
 # ─────────────────────────────────────────────
 # Aplicaciones de escritorio
