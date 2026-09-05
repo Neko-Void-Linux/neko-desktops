@@ -11,16 +11,15 @@ screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 overview {
     zoom 0.8
 }
-environment {
-    XDG_DATA_DIRS "/usr/local/share:/usr/share:/var/lib/flatpak/exports/share:~/.local/share/flatpak/exports/share"
-}
 
+include "environment.kdl"
 include "animations.kdl"
 include "autostart.kdl"
 include "input.kdl"
 include "keybinds.kdl"
 include "visual.kdl"
 include "window-rules.kdl"
+
 
 
 
