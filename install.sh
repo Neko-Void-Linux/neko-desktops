@@ -44,7 +44,7 @@ enable_dm_service() {
     case "$desktop" in
         gnome)              dm="gdm" ;;
         kde|lxqt)           dm="sddm" ;;
-        xfce|mate|icejwm)   dm="lightdm" ;;
+        xfce|mate|icewm|jwm)   dm="lightdm" ;;
         # niri, labwc, i3, swayfx suelen usarse desde TTY, greetd o ly. 
         # Si usas un DM para ellos, agrégalo aquí.
     esac
@@ -110,7 +110,8 @@ case "$DESKTOP_CHOICE" in
     mate )    apply_desktop_files mate "$TARGET_USER"   || exit 1 ;;
     niri )    apply_desktop_files niri "$TARGET_USER"   || exit 1 ;;
     lxqt )    apply_desktop_files lxqt "$TARGET_USER"   || exit 1 ;;
-    icejwm )  apply_desktop_files icejwm "$TARGET_USER" || exit 1 ;;
+    icewm )  apply_desktop_files icewm "$TARGET_USER" || exit 1 ;;
+    jwm )  apply_desktop_files jwm "$TARGET_USER" || exit 1 ;;
     labwc )   apply_desktop_files labwc "$TARGET_USER"  || exit 1 ;;
     i3 )      apply_desktop_files i3 "$TARGET_USER"     || exit 1 ;;
     swayfx )  apply_desktop_files swayfx "$TARGET_USER" || exit 1 ;;

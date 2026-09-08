@@ -30,7 +30,8 @@ case "${1:-}" in
     mate )   apply_desktop_files mate   || exit 1 ;;
     niri )   apply_desktop_files niri   || exit 1 ;;
     lxqt )   apply_desktop_files lxqt   || exit 1 ;;
-    icejwm ) apply_desktop_files icejwm || exit 1 ;;
+    icewm ) apply_desktop_files icewm || exit 1 ;;
+    jwm ) apply_desktop_files jwm || exit 1 ;;
     labwc )  apply_desktop_files labwc  || exit 1 ;;
     i3 )     apply_desktop_files i3     || exit 1 ;;
     swayfx ) apply_desktop_files swayfx || exit 1 ;;

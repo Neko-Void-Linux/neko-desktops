@@ -3,6 +3,7 @@
 # Escritorio MATE
 # ─────────────────────────────────────────────
 MATE_DESKTOP="
+    engrampa
     firefox
     mate
     mate-extra
@@ -16,20 +17,17 @@ MATE_DESKTOP="
     caja-open-terminal
     caja-extensions
     atril
-    gnome-screenshot
     gnome-keyring
     gvfs-afc
     gvfs-mtp
     gvfs-smb
     lightdm
-    lightdm-gtk-greeter
     lightdm-webkit2-greeter
     lightdm-gtk-greeter-settings
     libnotify
     numlockx
     picom
-    lxappearance
-    discover
+    nwg-look
 "
 #XFCE DESKTOP
 XFCE2="
@@ -45,7 +43,6 @@ XFCE2="
     gvfs-smb
     udisks2
     lightdm
-    lightdm-gtk-greeter
     lightdm-webkit2-greeter
     lightdm-gtk-greeter-settings
     libnotify
@@ -64,7 +61,6 @@ XFCE="
     gvfs-smb
     udisks2
     lightdm
-    lightdm-gtk-greeter
     lightdm-webkit2-greeter
     lightdm-gtk-greeter-settings
     libnotify
@@ -72,13 +68,12 @@ XFCE="
 "
 LXQT="
     kate
-    discover
     mpv
     lxqt
     xfwm4
+    nwg-look
     xfwm4-themes
     lightdm
-    lightdm-gtk-greeter
     lightdm-webkit2-greeter
     lightdm-gtk-greeter-settings
     gvfs-afc
@@ -108,8 +103,6 @@ LXDE="
 I3="
     i3
     lightdm
-    xdg-desktop-portal-gtk
-    xdg-desktop-portal
     lightdm-gtk-greeter
     polybar
     rofi
@@ -121,7 +114,7 @@ I3="
     feh
     mpv
     dex
-    polkit-gnome 
+    raven-polkit
     pulseaudio-utils
     setxkbmap
     brightnessctl
@@ -131,10 +124,7 @@ I3="
     xdotool
     pcmanfm
     dmenu
-    git
     ark
-    curl
-    wget
     unzip
     cargo
     pkg-config
@@ -147,39 +137,60 @@ I3="
     xcb-util-wm
     libxkbcommon
     font-awesome6
-    nerd-fonts-symbols-ttf
     fontconfig
     ImageMagick
-    libvips
     gvfs-afc
     gvfs-mtp
     gvfs-smb
-    udisks2
     firefox
-    matugen
     adw-gtk3
+    matugen
     papirus-icon-theme
     lua53
     xsettingsd
-    xwinwrap-nk
+    dash
     ffmpegthumbnailer
     socat
+    xwinwrap-nk
+    neko-icons
     dunst
-    dash
 "
 
-ICEJWM="
+JWM="
     ristretto
     xarchiver
     arandr
     jwm
     jwmkit-neko
+    mpv
+    pcmanfm
+    sakura
+    ristretto
+    lxappearance
+    atril
+    lightdm
+    lightdm-gtk-greeter
+    gvfs-afc
+    gvfs-mtp
+    gvfs-smb
+    udisks2
+    firefox
+    xdg-desktop-portal
+    xdg-desktop-portal-gtk
+    mate-polkit
+    xfce4-screenshooter
+"
+
+ICEWM="
+    ristretto
+    xarchiver
+    arandr
     icewm
     mpv
     pcmanfm
-    alacritty
+    sakura
     ristretto
-    lxappearance
+    nwg-look
     atril
     lightdm
     lightdm-gtk-greeter
@@ -200,7 +211,6 @@ KDE="
     kate
     firefox
     dolphin
-    discover
     gvfs-afc
     gvfs-mtp
     gvfs-smb
@@ -225,7 +235,6 @@ CINNAMON="
     gvfs-mtp
     gvfs-smb
     lightdm
-    lightdm-gtk-greeter
     colord
     gnome-terminal
 "
@@ -286,6 +295,7 @@ NIRI="
     xwayland-satellite
 	emptty
 	niri
+	niri-settings
 	noctalia
 	foot
 	xdg-desktop-portal
@@ -310,6 +320,7 @@ NIRI="
 	gtk-layer-shell
 	gtkmm
 "
+
 
 
 # ─────────────────────────────────────────────
@@ -377,11 +388,14 @@ XFCE_PACKAGES="
     ${XFCE}
 "
 
-ICEJWM_PACKAGES="
+ICEWM_PACKAGES="
     ${DEFAULT}
-    ${ICEJWM}
+    ${ICEWM}
 "
-
+JWM_PACKAGES="
+    ${DEFAULT}
+    ${JWM}
+"
 LXDE_PACKAGES="
     ${DEFAULT}
     ${LXDE}
@@ -452,7 +466,8 @@ PACKAGES_KDE=$(echo ${pkg-kde} | tr -s ' ')
 PACKAGES_LXQT=$(echo ${pkg-lxqt} | tr -s ' ')
 PACKAGES_I3=$(echo ${pkg-i3} | tr -s ' ')
 PACKAGES_XFCE=$(echo ${pkg-xfce} | tr -s ' ')
-PACKAGES_ICEJWM=$(echo ${pkg-icejwm} | tr -s ' ')
+PACKAGES_ICEWM=$(echo ${pkg-icewm} | tr -s ' ')
+PACKAGES_JWM=$(echo ${pkg-jwm} | tr -s ' ')
 PACKAGES_LXDE=$(echo ${pkg-lxde} | tr -s ' ')
 PACKAGES_CINNAMON=$(echo ${pkg-cinnamon} | tr -s ' ')
 PACKAGES_LABWC=$(echo ${pkg-labwc} | tr -s ' ')
