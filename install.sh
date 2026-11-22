@@ -94,7 +94,7 @@ apply_desktop_files() {
     fi
 
     # shellcheck disable=SC2086
-    xbps-install -Sy $packages
+    xbps-install -Syu $packages
 
     # 5. Habilitar servicios base y el Display Manager
     enable_base_services
@@ -108,7 +108,7 @@ TARGET_USER="${2:-}"
 # Si el usuario no especificó el TARGET_USER, le avisamos antes de fallar
 if [ -z "$TARGET_USER" ]; then
     echo "Uso: $0 <entorno> <usuario>"
-    echo "Ejemplo: $0 niri franckey"
+    echo "Ejemplo: $0 niri kyouko"
     exit 1
 fi
 
