@@ -832,6 +832,19 @@ set_bootloader() {
 failed to install GRUB to $dev!\nCheck $LOG for errors." ${MSGBOXSIZE}
         DIE 1
     fi
+    # Ensure GRUB_DISABLE_OS_PROBER=false is set without duplicates
+    local _grub_default="$TARGETDIR/etc/default/grub"
+    mkdir -p "$TARGETDIR/etc/default"
+    touch "$_grub_default"
+    local _tot _cor
+    _tot=$(grep -c "GRUB_DISABLE_OS_PROBER" "$_grub_default" 2>/dev/null) || _tot=0
+    _cor=$(grep -c "^[[:space:]]*GRUB_DISABLE_OS_PROBER=false[[:space:]]*$" "$_grub_default" 2>/dev/null) || _cor=0
+    if [ "$_tot" -ne 1 ] || [ "$_cor" -ne 1 ]; then
+        sed -i -E "/^[#[:space:]]*GRUB_DISABLE_OS_PROBER/d" "$_grub_default"
+        [ -s "$_grub_default" ] && [ -n "$(tail -c 1 "$_grub_default")" ] && echo "" >> "$_grub_default"
+        echo "GRUB_DISABLE_OS_PROBER=false" >> "$_grub_default"
+    fi
+
     echo "Running grub-mkconfig on $TARGETDIR..." >$LOG
     chroot $TARGETDIR grub-mkconfig -o /boot/grub/grub.cfg >$LOG 2>&1
     if [ $? -ne 0 ]; then

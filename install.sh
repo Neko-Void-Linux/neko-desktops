@@ -84,8 +84,17 @@ apply_desktop_files() {
     # 3. Arreglar los permisos para que el usuario sea el dueño de sus archivos
     chown -R "${target_user}:${target_user}" "${target_home}/"
 
-    # 4. Instalar el paquete de Void Linux de forma segura
-    xbps-install -Sy "${pkg}-${name}"
+    # 4. Instalar los paquetes del escritorio
+    local var_name="PACKAGES_${name^^}"      # mate -> PACKAGES_MATE
+    local packages="${!var_name:-}"          # valor de esa variable
+
+    if [ -z "$packages" ]; then
+        echo "ERROR: no hay lista de paquetes para '${name}'." >&2
+        return 1
+    fi
+
+    # shellcheck disable=SC2086
+    xbps-install -Sy $packages
 
     # 5. Habilitar servicios base y el Display Manager
     enable_base_services
