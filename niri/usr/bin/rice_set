@@ -4,13 +4,6 @@
 MARKER_FILE="$HOME/.rices.set"
 
 runn(){
-gsettings set org.gnome.desktop.interface icon-theme "Tela-dracula-dark"
-gsettings set org.gnome.desktop.interface gtk-theme "Matecito-Dark"
-# Cambiar el tema del cursor para aplicaciones GTK
-gsettings set org.gnome.desktop.interface cursor-theme 'Bibata-Gruvbox'
-# Cambiar el tamaño del cursor
-gsettings set org.gnome.desktop.interface cursor-size 16
-# Aplicar configuración de apariencia personalizada para MATE
 xdg-user-dirs-update && xdg-user-dirs-update --force
 foot sh -c "bash /usr/bin/nir-k"
 /usr/lib/Neko-Wizard/neko-store

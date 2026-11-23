@@ -16,6 +16,7 @@ Control Center.
 Install `gpu-screen-recorder` on `PATH`, or install the Flatpak app
 `com.dec05eba.gpu_screen_recorder`. Portal capture also requires
 `xdg-desktop-portal` with any backend that provides the ScreenCast interface.
+Region capture requires `slurp`.
 
 - **[gpu-screen-recorder](https://git.dec05eba.com/gpu-screen-recorder/about/)** - Hardware-accelerated screen recording
 
@@ -32,7 +33,7 @@ Widget controls:
 
 | Action | Behavior |
 | --- | --- |
-| Left click | Start or stop recording. |
+| Left click | Stop an active or pending recording/replay buffer, or start recording when idle. |
 | Right click | Start the replay buffer, stop a pending replay buffer, or save an active replay. |
 | Middle click | Save an active replay buffer. |
 
@@ -40,20 +41,26 @@ Shortcut controls:
 
 | Action | Behavior |
 | --- | --- |
-| Left click | Toggle recording. |
+| Left click | Stop an active or pending recording/replay buffer, or start recording when idle. |
 | Right click | Toggle the replay buffer. |
 
 Replay controls are available only when `replay_enabled` is true.
+
+Disabling or reloading the plugin, or exiting Noctalia, stops an active capture.
+
+When `video_source` is `region`, starting a capture or replay first opens a
+`slurp` picker: drawing an area records it and cancelling returns to idle.
 
 ## Settings
 
 | Setting | Type | Default | Description |
 | --- | --- | --- | --- |
-| `video_source` | `select` | `portal` | Capture `focused` or `portal`. |
+| `video_source` | `select` | `portal` | Capture `focused`, `portal` or `region`. |
 | `directory` | `folder` | `~/Videos/Recordings` | Output folder, falling back to `~/Videos/Recordings`. |
 | `filename_pattern` | `string` | `recording_%Y%m%d_%H%M%S` | Date-format filename pattern without extension. |
 | `frame_rate` | `int` | `60` | Capture frame rate from 1 to 240. |
 | `video_codec` | `select` | `h264` | Video codec: `h264`, `hevc`, `av1`, `vp8`, or `vp9`. |
+| `video_encoder` | `select` | `gpu` | Video encoder: `gpu` (hardware) or `cpu` (software, always H.264). |
 | `video_qp` | `int` | `25` | Constant quality level from 0–51; lower values produce higher quality and larger files. |
 | `resolution` | `string` | `original` | `original` or a size like `1920x1080`. |
 | `audio_source` | `select` | `default_output` | Audio source: output, input, both, or none. |
@@ -91,12 +98,13 @@ noctalia msg plugin noctalia/screen_recorder:service all replay-save
 ### Capture source override
 
 `start` and `replay-start` accept an optional payload that overrides the
-`video_source` setting for that capture: `focused` or `portal`. Any
+`video_source` setting for that capture: `focused`, `portal` or `region`. Any
 other value is ignored and the configured source is used.
 
 ```sh
 noctalia msg plugin noctalia/screen_recorder:service all start focused
 noctalia msg plugin noctalia/screen_recorder:service all start portal
+noctalia msg plugin noctalia/screen_recorder:service all start region
 ```
 
 Here `all` is the IPC target (which instance receives the event) and the trailing
@@ -111,3 +119,5 @@ with a `screen_recorder:` prefix - watch it in the terminal running Noctalia or 
 `${XDG_STATE_HOME:-~/.local/state}/noctalia/screen_recorder/gpu-screen-recorder.log`
 (truncated per run); when a recording fails to start or ends early, the tail of that
 file is echoed into the Noctalia log so the underlying reason is visible.
+Cancelling the portal target selection dialog exits silently without any error
+notification popup, the cancellation is only written in the Noctalia log.

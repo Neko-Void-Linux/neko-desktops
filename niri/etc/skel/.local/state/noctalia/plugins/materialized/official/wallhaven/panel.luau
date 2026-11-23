@@ -18,6 +18,8 @@ local TILE_BORDER_SELECTED = 3
 local TILE_LABEL_GAP = 4
 local TILE_LABEL_FONT = 11
 
+local closeButton = true
+
 local query = ""
 local page = 1
 local totalPages = 1
@@ -40,6 +42,8 @@ local resolutionWidth = ""
 local resolutionHeight = ""
 local aspectRatioIndex = 0
 local clearCounter = 0
+local pageInputCounter = 0
+local pageEditing = false
 
 local thumbPaths = {} -- id -> cache file path
 local thumbPending = {} -- id -> true while downloading
@@ -499,22 +503,22 @@ fetchWallpapers = function()
     `sorting={sortValue()}`,
     `order={sortOrder}`,
   }
-  
+
   local trimmed = noctalia.string.trim(query)
   if trimmed ~= "" then
     table.insert(params, `q={noctalia.string.urlEncode(trimmed)}`)
   end
-  
+
   local resolutionParamName, resolutionValue = buildResolutionParam()
   if resolutionParamName ~= nil and resolutionValue ~= nil then
     table.insert(params, `{resolutionParamName}={resolutionValue}`)
   end
-  
+
   local aspectRatio = aspectRatioParamValue()
   if aspectRatio ~= nil then
     table.insert(params, `ratios={aspectRatio}`)
   end
-  
+
   local url = API_BASE .. "/search?" .. table.concat(params, "&")
 
   noctalia.http({ url = url, headers = httpHeaders() }, function(res)
@@ -537,10 +541,10 @@ fetchWallpapers = function()
     local filteredWallpapers = {}
     local options = aspectRatioOptions()
     local selectedRatio = options[aspectRatioIndex + 1] or ""
-    
+
     for _, wallpaper in ipairs(data) do
       local include = true
-      
+
       -- Client-side aspect ratio check since API's ratio filter is often inaccurate
       if selectedRatio ~= "" then
         local res = wallpaper.resolution
@@ -551,7 +555,7 @@ fetchWallpapers = function()
             local ratio = w / h
             local isWide = ratio > 1
             local isPortrait = ratio < 1
-            
+
             if selectedRatio == "wide" and not isWide then
               include = false
             elseif selectedRatio == "portrait" and not isPortrait then
@@ -568,7 +572,7 @@ fetchWallpapers = function()
           end
         end
       end
-      
+
       if include then
         table.insert(filteredWallpapers, wallpaper)
       end
@@ -605,7 +609,7 @@ local function tileBorder(wallpaper, selected)
   if purity == "sketchy" then
     return "tertiary", TILE_BORDER_RATED
   end
-  return "outline", TILE_BORDER_SFW
+  return "outline_variant", TILE_BORDER_SFW
 end
 
 local function wallpaperPreview(wallpaper, frameWidth, frameHeight, borderColor, borderWidth)
@@ -629,7 +633,7 @@ local function wallpaperPreview(wallpaper, frameWidth, frameHeight, borderColor,
   return ui.box({
     width = frameWidth,
     height = frameHeight,
-    fill = "surface_variant",
+    fill = "surface_container",
     radius = TILE_FRAME_RADIUS,
     border = borderColor,
     borderWidth = borderWidth,
@@ -686,12 +690,17 @@ end
 
 render = function()
   normalizePurityFilters()
-  local pageLabel = if applying then tr("applying") else `Page {page} / {totalPages}`
+  local pageLabel = if applying then tr("applying") else `Page {page}`
+
+  local headerContent = {
+    ui.label({ text = tr("title"), fontSize = 16, fontWeight = "bold", color = "on_surface", flexGrow = 1 }),
+  }
+  if closeButton then
+    table.insert(headerContent, ui.button({ glyph = "close", onClick = "onCloseClicked" }))
+  end
+
   panel.render(ui.column({ flexGrow = 1, gap = 12, align = "stretch" }, {
-    ui.row({ align = "center", justify = "space_between", gap = 8 }, {
-      ui.label({ text = tr("title"), fontSize = 16, fontWeight = "bold", color = "on_surface", flexGrow = 1 }),
-      ui.button({ glyph = "close", onClick = "onCloseClicked" }),
-    }),
+    ui.row({ align = "center", justify = "space_between", gap = 8 }, headerContent),
 
     ui.row({ gap = 8, align = "center" }, {
       ui.input({
@@ -720,7 +729,24 @@ render = function()
           onClick = "onPrevPage",
           enabled = not loading and page > 1,
         }),
-        ui.label({ text = pageLabel, color = "on_surface_variant" }),
+        (if pageEditing then
+          ui.input({
+            key = `page_jump_{pageInputCounter}`,
+            placeholder = tostring(page),
+            width = 72,
+            focus = true,
+            onSubmit = "onPageEditSubmit",
+          })
+        else
+          ui.button({
+            key = "page_label",
+            text = pageLabel,
+            variant = "ghost",
+            tooltip = tr("page_jump_tooltip"),
+            onClick = "onPageLabelClicked",
+            enabled = not loading and not applying,
+          })),
+        ui.label({ text = if applying then "" else `/ {totalPages}`, color = "on_surface_variant" }),
         ui.button({
           key = "next_page",
           glyph = "chevron-right",
@@ -734,6 +760,7 @@ render = function()
 end
 
 function onOpen(_context)
+  closeButton = noctalia.getSetting("shell.show_close_buttons") ~= false
   normalizePurityFilters()
   fetchWallpapers()
 end
@@ -875,6 +902,31 @@ function onNextPage()
     page += 1
     fetchWallpapers()
   end
+end
+
+function onPageLabelClicked()
+  pageEditing = true
+  pageInputCounter += 1
+  render()
+end
+
+function onPageEditSubmit(value)
+  pageEditing = false
+  pageInputCounter += 1
+  if not loading then
+    local target = parsePositiveInt(noctalia.string.trim(value))
+    if target ~= nil then
+      if target > totalPages then
+        target = totalPages
+      end
+      if target ~= page then
+        page = target
+        fetchWallpapers()
+        return
+      end
+    end
+  end
+  render()
 end
 
 function onCloseClicked()

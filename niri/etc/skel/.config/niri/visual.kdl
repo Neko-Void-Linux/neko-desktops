@@ -47,10 +47,10 @@ layout {
     // You can change how the focus ring looks.
     focus-ring {
         // Uncomment this line to disable the focus ring.
-        off
+        on
 
         // How many logical pixels the ring extends out from the windows.
-        width 2
+        width 3
 
         // Colors can be set in a variety of ways:
         // - CSS named colors: "red"
@@ -128,13 +128,13 @@ layout {
         // pixels and match the CSS box-shadow properties.
 
         // Softness controls the shadow blur radius.
-        softness 5
+        softness 10
 
         // Spread expands the shadow.
         spread 2
 
         // Offset moves the shadow relative to the window.
-        offset x=-15 y=-15
+        offset x=-3 y=0
 
         // You can also change the shadow color and opacity.
         color "#0007"
@@ -177,7 +177,7 @@ prefer-no-csd
 // Example: enable rounded corners for all windows.
 // (This example rule is commented out with a "/-" in front.)
 window-rule {
-    geometry-corner-radius 0
+    geometry-corner-radius 4
     clip-to-geometry true
 }
 
@@ -192,7 +192,12 @@ window-rule {
     match app-id="pcmanfm"
     match app-id="nwg"
     match app-id="noctalia"
-    opacity 0.92
+    opacity 0.95
+}
+
+window-rule {
+    match is-active=false
+    opacity 0.95
 }
 
 /* Apps: blur them all without xray so it looks more realistic. */
@@ -228,7 +233,7 @@ layer-rule {
 /* You can also fine-tune the blur effect globally. */
 blur {
   passes 5        // more passes = stronger blur (default: 3)
-  offset 3.0      // sample distance per pass (default: 3.0)
+  offset 3.5      // sample distance per pass (default: 3.0)
   noise 0.05      // grain overlay (default: 0.02)
   saturation 1.2  // color saturation boost (default: 1.5)
 }

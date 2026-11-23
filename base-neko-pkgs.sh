@@ -1,7 +1,4 @@
 #!/bin/bash
-# ─────────────────────────────────────────────
-# Escritorio MATE
-# ─────────────────────────────────────────────
 MATE_DESKTOP="
     engrampa
     firefox
@@ -10,6 +7,10 @@ MATE_DESKTOP="
     mate-tweak
     mate-polkit
     mate-terminal
+	mate-netbook
+	mate-common
+	mate-applets
+	mate-indicator-applet
     mpv
     pluma
     caja-wallpaper
@@ -26,7 +27,7 @@ MATE_DESKTOP="
     lightdm-gtk-greeter-settings
     libnotify
     numlockx
-    picom
+	mozo
     nwg-look
 "
 #XFCE DESKTOP
@@ -157,16 +158,16 @@ I3="
 "
 
 JWM="
-    ristretto
     xarchiver
+    pluma
     arandr
     jwm
     jwmkit-neko
     mpv
     pcmanfm
     sakura
-    ristretto
-    lxappearance
+    gpicview
+    nwg-look
     atril
     lightdm
     lightdm-gtk-greeter
@@ -182,14 +183,14 @@ JWM="
 "
 
 ICEWM="
-    ristretto
     xarchiver
     arandr
     icewm
+    pluma
     mpv
     pcmanfm
     sakura
-    ristretto
+    gpicview
     nwg-look
     atril
     lightdm
@@ -250,7 +251,7 @@ LABWC="
 	gvfs-afc
     gvfs-mtp
     gvfs-smb
-	wlr-randr
+	wdisplays
 	xwayland-satellite
 	swaylock
 	labwc
@@ -259,8 +260,8 @@ LABWC="
 	foot
 	kanshi
 	xdg-desktop-portal
+	xdg-desktop-portal-gtk
 	xdg-desktop-portal-wlr
-	playerctl
 	nwg-look
 	gtk-update-icon-cache
 	wl-clipboard
@@ -268,12 +269,10 @@ LABWC="
 	mpv
 	ristretto
 	geany
-	grim
-	slurp
 	gtksourceview
 	json-c
 	yad
-	waterfox
+	firefox
 	gtk-layer-shell
 	gtkmm
 	pcmanfm
@@ -291,7 +290,6 @@ NIRI="
     wlr-randr
     wdisplays
     caja
-    wofi
     xwayland-satellite
 	emptty
 	niri
@@ -300,9 +298,9 @@ NIRI="
 	foot
 	xdg-desktop-portal
 	xdg-desktop-portal-wlr
+	xdg-desktop-portal-gtk
 	xdg-desktop-portal-gnome
 	wl-clipboard
-	mako
 	wlsunset
 	nwg-look
 	gtk-update-icon-cache
@@ -311,33 +309,69 @@ NIRI="
 	mpv
 	ristretto
 	geany
-	grim
-	slurp
 	gtksourceview
 	json-c
 	yad
-	waterfox
+	firefox
 	gtk-layer-shell
 	gtkmm
 "
 
-
+SWAYFX="
+    ristretto
+    xarchiver
+    gvfs-afc
+    gvfs-mtp
+    gvfs-smb
+    wlr-randr
+    wdisplays
+    mate-polkit
+    caja
+    xwayland-satellite
+    emptty
+    swayfx
+    foot
+    xdg-desktop-portal
+    xdg-desktop-portal-gtk
+    xdg-desktop-portal-wlr
+    wl-clipboard
+    mako
+    wlsunset
+    nwg-look
+    gtk-update-icon-cache
+    wlopm
+    mpv
+    geany
+    grim
+    slurp
+    gtksourceview
+    json-c
+    yad
+    firefox
+    gtk-layer-shell
+    gtkmm
+    swaylock
+    swayidle
+    kanshi
+    wofi
+    waybar
+"
 
 # ─────────────────────────────────────────────
 # Aplicaciones de escritorio
 # ─────────────────────────────────────────────
 DESKTOP_APPS="
     gparted
-	iruka-xbps
+    iruka-xbps
+    Neko-Kernel-Manager
 "
 
-# ─────────────────────────────────────────────
-# Flatpak + portales
-# ─────────────────────────────────────────────
-FLATPAK="
+ANOTHER="
     flatpak
     xdg-desktop-portal
     xdg-desktop-portal-gtk
+	papirus-folders
+	papirus-icon-theme
 "
 
 # ─────────────────────────────────────────────
@@ -347,11 +381,25 @@ FONTS="
     noto-fonts-emoji
     noto-fonts-cjk
     noto-fonts-ttf
+    font-JetBrainsMono
     font-awesome
+	font-cozette
     dejavu-fonts-ttf
     liberation-fonts-ttf
     font-misc-misc
     terminus-font
+"
+
+# ─────────────────────────────────────────────
+# Multimedia / codecs
+# ─────────────────────────────────────────────
+MULTIMEDIA="
+    ffmpeg
+    gstreamer1
+    gst-plugins-base1
+    gst-plugins-good1
+    gst-plugins-bad1
+    gst-plugins-ugly1
 "
 
 
@@ -412,47 +460,6 @@ LABWC_PACKAGES="
 NIRI_PACKAGES="
     ${DEFAULT}
     ${NIRI}
-"
-
-SWAYFX="
-    discover
-    ristretto
-    xarchiver
-    gvfs-afc
-    gvfs-mtp
-    gvfs-smb
-    wlr-randr
-    wdisplays
-    mate-polkit
-    caja
-    xwayland-satellite
-    emptty
-    swayfx
-    foot
-    xdg-desktop-portal
-    xdg-desktop-portal-gnome
-    xdg-desktop-portal-wlr
-    wl-clipboard
-    mako
-    wlsunset
-    nwg-look
-    gtk-update-icon-cache
-    wlopm
-    mpv
-    geany
-    grim
-    slurp
-    gtksourceview
-    json-c
-    yad
-    waterfox
-    gtk-layer-shell
-    gtkmm
-    swaylock
-    swayidle
-    kanshi
-    wofi
-    waybar
 "
 
 SWAYFX_PACKAGES="

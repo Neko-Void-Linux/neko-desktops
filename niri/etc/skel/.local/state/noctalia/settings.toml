@@ -1,4 +1,4 @@
-config_version = 13
+config_version = 16
 
 [audio]
 enable_overdrive = true
@@ -12,10 +12,18 @@ tint_intensity = 0.099999997764825821
 order = [ "default" ]
 
     [bar.default]
-    background_opacity = 0.89999997988343239
-    capsule_fill = "on_secondary"
-    capsule_radius = 0
+    background_opacity = 0.79999998211860657
+    border = "primary"
+    border_width = 1.5
+    capsule_border = "primary"
+    capsule_border_width = 0.5
+    capsule_fill = "primary"
+    capsule_opacity = 0.19999999552965164
+    capsule_padding = 4.0
+    capsule_radius = 2
+    capsule_thickness = 0.4999999925494194
     center = [ "audio_visualizer" ]
+    concave_edge_corners = false
     contact_shadow = true
     end = [
         "media",
@@ -32,12 +40,14 @@ order = [ "default" ]
         "control-center",
         "session"
     ]
-    font_weight = 400
-    margin_edge = 5
-    margin_ends = 16
-    padding = 30
-    radius = 0
+    font_scale = 1.0499999839812517
+    margin_edge = 4
+    margin_ends = 15
+    padding = 24
+    radius = 9
+    scale = 1.0500000081956387
     thickness = 42
+    widget_spacing = 4
 
 [control_center]
 show_session_button = false
@@ -57,11 +67,17 @@ widget_order = []
     [desktop_widgets.widget]
 
 [dock]
+background_opacity = 0.74999998323619366
+border = "primary"
+border_width = 1.5
+concave_edge_corners = false
 enabled = true
 icon_size = 32
-main_axis_padding = 10
-radius = 0
+launcher_position = "start"
+margin_edge = 10
+radius = 8
 reserve_space = false
+shadow = false
 show_dots = true
 smart_auto_hide = true
 
@@ -76,6 +92,7 @@ validate = [ "Return", "KP_Enter" ]
 enabled = false
 schema_version = 2
 widget_order = [
+    "lockscreen-login-box@X11-1",
     "lockscreen-login-box@winit",
     "lockscreen-login-box@WL-1",
     "lockscreen-login-box@HDMI-A-1",
@@ -100,7 +117,7 @@ widget_order = [
     type = "login_box"
 
         [lockscreen_widgets.widget."lockscreen-login-box@HDMI-A-1".settings]
-        background_color = "surface_variant"
+        background_color = "surface_container"
         background_opacity = 0.88
         background_radius = 12.0
         center_password_text = false
@@ -127,7 +144,7 @@ widget_order = [
     type = "login_box"
 
         [lockscreen_widgets.widget."lockscreen-login-box@VGA-1".settings]
-        background_color = "surface_variant"
+        background_color = "surface_container"
         background_opacity = 0.88
         background_radius = 12.0
         center_password_text = false
@@ -154,7 +171,7 @@ widget_order = [
     type = "login_box"
 
         [lockscreen_widgets.widget."lockscreen-login-box@Virtual-1".settings]
-        background_color = "surface_variant"
+        background_color = "surface_container"
         background_opacity = 0.88
         background_radius = 12.0
         center_password_text = false
@@ -181,7 +198,34 @@ widget_order = [
     type = "login_box"
 
         [lockscreen_widgets.widget."lockscreen-login-box@WL-1".settings]
-        background_color = "surface_variant"
+        background_color = "surface_container"
+        background_opacity = 0.88
+        background_radius = 12.0
+        center_password_text = false
+        input_opacity = 1.0
+        input_radius = 6.0
+        layout = "regular"
+        show_caps_lock = true
+        show_keyboard_layout = true
+        show_login_button = true
+        show_media = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
+
+    [lockscreen_widgets.widget."lockscreen-login-box@X11-1"]
+    box_height = 196.0
+    box_width = 810.0
+    cx = 512.0
+    cy = 585.99932861328125
+    output = "X11-1"
+    placement_height = 768.0
+    placement_width = 1024.0
+    rotation = 0.0
+    type = "login_box"
+
+        [lockscreen_widgets.widget."lockscreen-login-box@X11-1".settings]
+        background_color = "surface_container"
         background_opacity = 0.88
         background_radius = 12.0
         center_password_text = false
@@ -199,16 +243,16 @@ widget_order = [
     [lockscreen_widgets.widget."lockscreen-login-box@winit"]
     box_height = 196.0
     box_width = 810.0
-    cx = 446.0
-    cy = 763.0
+    cx = 912.0
+    cy = 826.78515625
     output = "winit"
-    placement_height = 945.0
-    placement_width = 892.0
+    placement_height = 1024.0
+    placement_width = 1824.0
     rotation = 0.0
     type = "login_box"
 
         [lockscreen_widgets.widget."lockscreen-login-box@winit".settings]
-        background_color = "surface_variant"
+        background_color = "surface_container"
         background_opacity = 0.88
         background_radius = 12.0
         center_password_text = false
@@ -234,10 +278,10 @@ directory = ""
 dictionaries = "install"
 
 [plugins]
-enabled = [ "noctalia/translator", "noctalia/screen_recorder" ]
+enabled = [ "noctalia/translator", "noctalia/screen_recorder", "noctalia/wallhaven" ]
 
 [shell]
-corner_radius_scale = 0.0
+corner_radius_scale = 0.5000000074505806
 font_family = "CozetteVector"
 niri_overview_type_to_launch_enabled = true
 password_style = "random"
@@ -258,6 +302,7 @@ polkit_agent = true
     control_center_position = "center"
     floating_offset = 0
     launcher_placement = "attached"
+    launcher_position = "auto"
     open_near_click_clipboard = true
     open_near_click_control_center = true
     open_near_click_launcher = true
@@ -287,6 +332,7 @@ wallpaper_scheme = "m3-tonal-spot"
 [wallpaper]
 directory = "/usr/share/wallpapers"
 directory_dark = "/usr/share/wallpapers"
+transition_duration = 2000
 
     [wallpaper.default]
     path = "/usr/share/wallpapers/Moony-art.png"

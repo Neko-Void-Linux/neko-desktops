@@ -18,7 +18,7 @@ Browse [Wallhaven](https://wallhaven.cc), download a wallpaper into your Noctali
    noctalia msg panel-toggle noctalia/wallhaven:browser
    ```
 
-3. Search by tags, adjust category and purity filters, paginate results, then click a wallpaper to download and apply.
+3. Search by tags, adjust category and purity filters, paginate results (or click the page counter, type a page number, and press Enter), then click a wallpaper to download and apply.
 
 ## Settings
 
@@ -31,6 +31,8 @@ Thumbnail previews are cached under `$XDG_STATE_HOME/noctalia/wallhaven/thumbs` 
 
 ## Notes
 
+- Requires plugin API 26.
+- The panel close button respects `shell.show_close_buttons`; if the setting is missing, the button remains visible.
 - Requires network access (`[shell].offline_mode` must be off).
 - NSFW results require a Wallhaven API key.
 - Applied wallpapers use `noctalia.setWallpaper(path)` so they persist like any other wallpaper.

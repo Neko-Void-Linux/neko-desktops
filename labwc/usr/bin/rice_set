@@ -4,9 +4,6 @@
 MARKER_FILE="$HOME/.rices.set"
 
 runn(){
-gsettings set org.gnome.desktop.interface icon-theme "Tela-dracula-dark"
-gsettings set org.gnome.desktop.interface gtk-theme "Matecito-Dark"
-# Aplicar configuración de apariencia personalizada para MATE
 xdg-user-dirs-update && xdg-user-dirs-update --force
 /usr/lib/Neko-Wizard/neko-store
 /usr/bin/labwc-tweaks

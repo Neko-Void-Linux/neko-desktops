@@ -15,7 +15,7 @@ environment {
     XDG_DATA_DIRS "/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share${XDG_DATA_DIRS:+:$XDG_DATA_DIRS}:/usr/local/share:/usr/share"
 
     // Qt5/Qt6 theming
-    //QT_QPA_PLATFORMTHEME "qt6ct"
+    QT_QPA_PLATFORMTHEME "qt6ct"
 
     // Fix Java application rendering
     _JAVA_AWT_WM_NONREPARENTING "1"
