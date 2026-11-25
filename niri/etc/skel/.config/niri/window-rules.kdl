@@ -21,6 +21,7 @@ window-rule {
     // - host Firefox (app-id is "firefox")
     // - Flatpak Firefox (app-id is "org.mozilla.firefox")
     match app-id="pavucontrol"
+    match app-id="galculator"
     open-floating true
 }
 
