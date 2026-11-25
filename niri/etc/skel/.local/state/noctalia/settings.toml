@@ -355,7 +355,7 @@ show_when_idle = true
 width = 150
 
 [widget.control-center]
-custom_image = ".config/neko2.svg
+custom_image = ".config/neko2.svg"
 
 [widget.media]
 album_art_only = true
